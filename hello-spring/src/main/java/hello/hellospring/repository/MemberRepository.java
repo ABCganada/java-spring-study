@@ -10,5 +10,4 @@ public interface MemberRepository {
     Optional<Member> findById(Long id); //저장소에서 id로 회원을 찾음
     Optional<Member> findByName(String name);
     List<Member> findAll(); //저장된 모든 회원 리스트 반환
-
 }
