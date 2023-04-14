@@ -1,1 +1,2 @@
-# 자바 및 자바스프링을 공부해보자아
+# JAVA & SPRING
+Java & Spring boot Study
