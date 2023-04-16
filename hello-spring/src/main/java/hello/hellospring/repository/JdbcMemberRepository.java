@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcMemberRepository implements MemberRepository{
-
+public class JdbcMemberRepository implements MemberRepository {
     private final DataSource dataSource;
 
     public JdbcMemberRepository(DataSource dataSource) {
@@ -45,7 +44,28 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public Optional<Member> findById(Long id) {
-        return Optional.empty();
+        String sql = "select * from member where id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Member member = new Member();
+                member.setId(rs.getLong("id"));
+                member.setName(rs.getString("name"));
+                return Optional.of(member);
+            } else {
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
     }
 
     @Override
@@ -59,7 +79,7 @@ public class JdbcMemberRepository implements MemberRepository{
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
             List<Member> members = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 Member member = new Member();
                 member.setId(rs.getLong("id"));
                 member.setName(rs.getString("name"));
@@ -84,7 +104,7 @@ public class JdbcMemberRepository implements MemberRepository{
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
             rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Member member = new Member();
                 member.setId(rs.getLong("id"));
                 member.setName(rs.getString("name"));
@@ -102,7 +122,6 @@ public class JdbcMemberRepository implements MemberRepository{
         return DataSourceUtils.getConnection(dataSource);
     }
 
-
     private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
             if (rs != null) {
@@ -116,7 +135,7 @@ public class JdbcMemberRepository implements MemberRepository{
                 pstmt.close();
             }
         } catch (SQLException e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
         try {
             if (conn != null) {
@@ -131,3 +150,4 @@ public class JdbcMemberRepository implements MemberRepository{
         DataSourceUtils.releaseConnection(conn, dataSource);
     }
 }
+
