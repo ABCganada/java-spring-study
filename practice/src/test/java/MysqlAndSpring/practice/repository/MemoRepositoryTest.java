@@ -15,7 +15,7 @@ public class MemoRepositoryTest {
     MemoRepository memoRepository;
 
     @Test
-    public void InsertDummies(){
+    public void Insert(){
 
         IntStream.rangeClosed(1,10).forEach(i ->{
             Memo memo = Memo.builder()
@@ -27,9 +27,9 @@ public class MemoRepositoryTest {
     }
 
     @Test
-    public void SelectDummies(){
+    public void Select(){
 
-        Long id = 10L;
+        Long id = 4L;
 
         Optional<Memo> result = memoRepository.findById(id);
 
@@ -42,9 +42,9 @@ public class MemoRepositoryTest {
     }
 
     @Test
-    public void UpdateDummies(){
+    public void Update(){
         Memo memo = Memo.builder()
-                .id(10L)
+                .id(4L)
                 .context("Update Text")
                 .build();
 
@@ -53,7 +53,7 @@ public class MemoRepositoryTest {
 
     @Test
     public void DeleteDummies(){
-        Long id = 10L;
+        Long id = 5L;
 
         memoRepository.deleteById(id);
     }
