@@ -1,7 +1,7 @@
-package com.spring.boardCRUD.controller;
+package com.spring.boardCRUD.Controller;
 
-import com.spring.boardCRUD.dto.BoardDto;
-import com.spring.boardCRUD.service.BoardService;
+import com.spring.boardCRUD.Dto.BoardDto;
+import com.spring.boardCRUD.Service.BoardService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +24,12 @@ public class BoardController {
     }
 
     @GetMapping("/post")
-    public String write(){
+    public String write() {
         return "board/write.html";
     }
 
     @PostMapping("/post")
-    public String write(BoardDto boardDto){
+    public String write(BoardDto boardDto) {
         boardService.savePost(boardDto);
 
         return "redirect:/";
